@@ -18,7 +18,7 @@ if page == "🏠 Home":
         and building impactful solutions. I turn raw data into real business value.
         """)
         st.link_button("🔗 GitHub", "https://github.com/saii4u")
-        st.link_button("🔗 LinkedIn", "https://linkedin.com/in/saii4u")
+        st.link_button("🔗 LinkedIn", "https://linkedin.com/in/sai-krishna-anumula")
     
     with col2:
         st.image("https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/profile.jpg.jpeg", width=300)
