@@ -51,9 +51,10 @@ elif page == "🧪 Projects":
     st.title("Featured Data Science Projects 🚀")
     st.write("Interact with my live Machine Learning models below.")
 
- # --- LIVE PROJECT 1: SALARY PREDICTION ---
+    # --- PROJECT 1: SALARY PREDICTION ---
     with st.container():
-        st.subheader("Live AI Model: Salary Prediction Engine 💰")
+        # UPDATED HEADER TO MATCH PROJECT 2 STYLE
+        st.subheader("1️⃣ Salary Prediction Engine 💰")
         st.write("""
         Input your years of experience below. This app uses a **Multi-layer Perceptron (MLP) Neural Network** trained on historical salary data to estimate your market value.
         """)
@@ -80,13 +81,13 @@ elif page == "🧪 Projects":
 
     st.divider()
 
-# --- PROJECT 2: HEART DISEASE PREDICTOR ---
+    # --- PROJECT 2: HEART DISEASE PREDICTOR ---
     with st.container():
         st.subheader("2️⃣ Heart Disease Mortality Predictor 🏥")
         st.write("Predicts mortality rates per 100k people based on location and year.")
         
         try:
-            # 1. Load Model Assets
+            # Load Heart Model Assets
             h_model = joblib.load('heart_model.pkl')
             h_scaler = joblib.load('heart_scaler.pkl')
 
@@ -104,25 +105,19 @@ elif page == "🧪 Projects":
                 h_pred = h_model.predict(h_input_scaled)
                 st.warning(f"Predicted Mortality Rate: **{h_pred[0]:,.2f}** per 100k")
 
-            # --- MAP VISUALIZATION FIX ---
+            # --- MAP VISUALIZATION ---
             st.write("---")
             if st.checkbox("🌍 Show Geospatial Data Map"):
                 data_path = 'Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County___2019-2021.csv'
                 df_map = pd.read_csv(data_path)
-                
-                # IMPORTANT: We must rename to 'lat' and 'lon' (all lowercase)
                 map_data = df_map[['Y_lat', 'X_lon']].rename(columns={'Y_lat': 'lat', 'X_lon': 'lon'})
-                
-                # Drop any rows that have empty coordinates to prevent errors
                 map_data = map_data.dropna(subset=['lat', 'lon'])
-                
                 st.map(map_data)
 
         except FileNotFoundError:
-            st.error("Model or Data files not found. Please ensure all files are uploaded to GitHub.")
+            st.error("Model or Data files not found.")
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")
-
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
     st.title("My Technical Toolkit 🛠️")
