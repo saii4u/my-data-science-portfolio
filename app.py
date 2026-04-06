@@ -49,9 +49,9 @@ if page == "🏠 Home":
 # --- 🧪 PROJECTS PAGE ---
 elif page == "🧪 Projects":
     st.title("Featured Data Science Projects 🚀")
-    st.write("Here are some of the real-world problems I've solved using data.")
+    st.write("Interact with my live Machine Learning models below.")
 
- # --- LIVE PROJECT: SALARY PREDICTION ---
+ # --- LIVE PROJECT 1: SALARY PREDICTION ---
     with st.container():
         st.subheader("Live AI Model: Salary Prediction Engine 💰")
         st.write("""
@@ -62,46 +62,61 @@ elif page == "🧪 Projects":
         import numpy as np
 
         try:
-            # 1. Load the "Brains" of the project
-            # These files must be in the same GitHub folder as app.py
-            model = joblib.load('salary_model.pkl')
-            scaler = joblib.load('salary_scaler.pkl')
+            # Load Salary Assets
+            s_model = joblib.load('salary_model.pkl')
+            s_scaler = joblib.load('salary_scaler.pkl')
 
-            # 2. User Interface Layout
-            c1, c2 = st.columns([1, 1])
-            
-            with c1:
-                st.markdown("### 🛠️ Input Features")
-                years = st.number_input("Years of Experience", min_value=0.0, max_value=50.0, value=5.0, step=0.5)
-                predict_btn = st.button("Calculate Salary")
-            
-            with c2:
-                st.markdown("### 🎯 Result")
-                if predict_btn:
-                    # Process input: Scale -> Predict
-                    scaled_input = scaler.transform(np.array([[years]]))
-                    prediction = model.predict(scaled_input)
-                    
-                    st.success(f"Estimated Salary: **${prediction[0]:,.2f}**")
+            col1, col2 = st.columns(2)
+            with col1:
+                s_years = st.number_input("Years of Experience", 0.0, 50.0, 5.0, step=0.5, key="s_input")
+            with col2:
+                if st.button("Predict Salary", key="s_btn"):
+                    s_input = s_scaler.transform(np.array([[s_years]]))
+                    s_pred = s_model.predict(s_input)
+                    st.success(f"Estimated Salary: **${s_pred[0]:,.2f}**")
                     st.balloons()
-                else:
-                    st.info("Adjust the slider and click predict to see the result.")
+        except FileNotFoundError:
+            st.error("Salary model files not found on GitHub.")
+
+    st.divider()
+
+# --- PROJECT 2: HEART DISEASE PREDICTOR ---
+    with st.container():
+        st.subheader("2️⃣ Heart Disease Mortality Predictor 🏥")
+        st.write("Predicts mortality rates per 100k people based on location and year.")
+        
+        try:
+            # 1. Load Model Assets
+            h_model = joblib.load('heart_model.pkl')
+            h_scaler = joblib.load('heart_scaler.pkl')
+
+            c1, c2 = st.columns(2)
+            with c1:
+                h_year = st.selectbox("Select Year", [2019, 2020, 2021], key="h_year")
+                h_lat = st.number_input("Latitude (Y_lat)", value=34.0, key="h_lat")
+            with c2:
+                h_loc = st.number_input("Location ID", value=1000, key="h_loc")
+                h_lon = st.number_input("Longitude (X_lon)", value=-85.0, key="h_lon")
+
+            if st.button("Predict Mortality Rate", key="h_btn"):
+                h_input = np.array([[h_year, h_loc, h_lat, h_lon]])
+                h_input_scaled = h_scaler.transform(h_input)
+                h_pred = h_model.predict(h_input_scaled)
+                st.warning(f"Predicted Mortality Rate: **{h_pred[0]:,.2f}** per 100k")
+
+            # 2. ADD THIS: MAP VISUALIZATION
+            st.write("---")
+            if st.checkbox("🌍 Show Geospatial Data Map"):
+                # Make sure this filename matches exactly what you have in your folder!
+                data_path = 'Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County___2019-2021.csv'
+                df_map = pd.read_csv(data_path)
+                
+                # Streamlit map requires columns named 'lat' and 'lon'
+                map_data = df_map[['Y_lat', 'X_lon']].rename(columns={'Y_lat': 'lat', 'X_lon': 'lon'})
+                st.map(map_data)
 
         except FileNotFoundError:
-            st.error("Model files not found! Please ensure 'salary_model.pkl' and 'salary_scaler.pkl' are uploaded to your GitHub repository.")
-
-    # Project 2: Add another one here
-    with st.container():
-        c3, c4 = st.columns([1, 2])
-        with c3:
-            st.image("https://via.placeholder.com/400x250.png?text=Data+Visualization")
-        with c4:
-            st.subheader("Project 2: [Exploratory Data Analysis]")
-            st.write("""
-            Describe your analysis. What interesting insights did you find in the data?
-            """)
-            st.markdown("**Tech Stack:** `Plotly`, `Seaborn`, `Statistics`")
-            st.link_button("View Code", "https://github.com/saii4u")
+            st.info("Files are still syncing. If this persists, check if the .pkl and .csv filenames match exactly.") 
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
