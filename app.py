@@ -104,19 +104,20 @@ elif page == "🧪 Projects":
                 h_pred = h_model.predict(h_input_scaled)
                 st.warning(f"Predicted Mortality Rate: **{h_pred[0]:,.2f}** per 100k")
 
-            # 2. ADD THIS: MAP VISUALIZATION
+            # --- MAP VISUALIZATION FIX ---
             st.write("---")
             if st.checkbox("🌍 Show Geospatial Data Map"):
-                # Make sure this filename matches exactly what you have in your folder!
                 data_path = 'Heart_Disease_Mortality_Data_Among_US_Adults__35___by_State_Territory_and_County___2019-2021.csv'
                 df_map = pd.read_csv(data_path)
                 
-                # Streamlit map requires columns named 'lat' and 'lon'
+                # IMPORTANT: We must rename to 'lat' and 'lon' (all lowercase)
+                # Ensure these match the columns in your CSV exactly
                 map_data = df_map[['Y_lat', 'X_lon']].rename(columns={'Y_lat': 'lat', 'X_lon': 'lon'})
+                
+                # Drop any rows that have empty coordinates to prevent errors
+                map_data = map_data.dropna(subset=['lat', 'lon'])
+                
                 st.map(map_data)
-
-        except FileNotFoundError:
-            st.info("Files are still syncing. If this persists, check if the .pkl and .csv filenames match exactly.") 
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
