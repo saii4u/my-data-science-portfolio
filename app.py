@@ -1,3 +1,8 @@
+# --- GIT COMMANDS FOR UPDATING WEBSITE ---
+# 1. git add .
+# 2. git commit -m "Describe your changes here"
+# 3. git push origin main
+
 import streamlit as st
 import plotly.express as px
 import pandas as pd
@@ -46,22 +51,44 @@ elif page == "🧪 Projects":
     st.title("Featured Data Science Projects 🚀")
     st.write("Here are some of the real-world problems I've solved using data.")
 
-    # Project 1: Replace this with one of your GitHub ML models
+ # --- LIVE PROJECT: SALARY PREDICTION ---
     with st.container():
-        c1, c2 = st.columns([1, 2])
-        with c1:
-            # Tip: Replace with a real screenshot link later
-            st.image("https://via.placeholder.com/400x250.png?text=ML+Model+Analysis")
-        with c2:
-            st.subheader("Project 1: [Name of your ML Model]")
-            st.write("""
-            Describe your project here. What was the goal? What model did you use? 
-            What was the final result (Accuracy, RMSE, etc.)?
-            """)
-            st.markdown("**Tech Stack:** `Python`, `Scikit-Learn`, `Pandas`")
-            st.link_button("View Code", "https://github.com/saii4u")
-    
-    st.write("---")
+        st.subheader("Live AI Model: Salary Prediction Engine 💰")
+        st.write("""
+        Input your years of experience below. This app uses a **Multi-layer Perceptron (MLP) Neural Network** trained on historical salary data to estimate your market value.
+        """)
+
+        import joblib
+        import numpy as np
+
+        try:
+            # 1. Load the "Brains" of the project
+            # These files must be in the same GitHub folder as app.py
+            model = joblib.load('salary_model.pkl')
+            scaler = joblib.load('salary_scaler.pkl')
+
+            # 2. User Interface Layout
+            c1, c2 = st.columns([1, 1])
+            
+            with c1:
+                st.markdown("### 🛠️ Input Features")
+                years = st.number_input("Years of Experience", min_value=0.0, max_value=50.0, value=5.0, step=0.5)
+                predict_btn = st.button("Calculate Salary")
+            
+            with c2:
+                st.markdown("### 🎯 Result")
+                if predict_btn:
+                    # Process input: Scale -> Predict
+                    scaled_input = scaler.transform(np.array([[years]]))
+                    prediction = model.predict(scaled_input)
+                    
+                    st.success(f"Estimated Salary: **${prediction[0]:,.2f}**")
+                    st.balloons()
+                else:
+                    st.info("Adjust the slider and click predict to see the result.")
+
+        except FileNotFoundError:
+            st.error("Model files not found! Please ensure 'salary_model.pkl' and 'salary_scaler.pkl' are uploaded to your GitHub repository.")
 
     # Project 2: Add another one here
     with st.container():
