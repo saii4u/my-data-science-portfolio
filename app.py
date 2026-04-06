@@ -111,13 +111,17 @@ elif page == "🧪 Projects":
                 df_map = pd.read_csv(data_path)
                 
                 # IMPORTANT: We must rename to 'lat' and 'lon' (all lowercase)
-                # Ensure these match the columns in your CSV exactly
                 map_data = df_map[['Y_lat', 'X_lon']].rename(columns={'Y_lat': 'lat', 'X_lon': 'lon'})
                 
                 # Drop any rows that have empty coordinates to prevent errors
                 map_data = map_data.dropna(subset=['lat', 'lon'])
                 
                 st.map(map_data)
+
+        except FileNotFoundError:
+            st.error("Model or Data files not found. Please ensure all files are uploaded to GitHub.")
+        except Exception as e:
+            st.error(f"An unexpected error occurred: {e}")
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
