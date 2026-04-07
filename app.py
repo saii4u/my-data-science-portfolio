@@ -57,8 +57,15 @@ if page == "🏠 Home":
     
     with col_edu1:
         st.markdown("**Master of Science in Data Science]**")
-        st.caption("[Coventry University] | [Years, 2024 - 2025]")
+        st.caption("Coventry University | Years, 2024 - 2025")
         st.write("Relevant Coursework: Machine Learning, Big Data, Statistics.")
+        
+        with col_logo:
+            # Reliable cu Logo Link
+            st.image(
+                "https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", 
+                width=120
+            )
 
 
     st.write("---")
