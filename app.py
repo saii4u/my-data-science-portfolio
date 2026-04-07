@@ -50,7 +50,6 @@ if page == "🏠 Home":
 
     st.success("💡 Tip: Check out my 'Projects' tab to see my work in action!")
 
-st.write("---")
 
 # --- 🎓 EDUCATION SECTION ---
     st.write("### 🎓 Education")
@@ -214,4 +213,4 @@ elif page == "📬 Contact":
 
 # --- FOOTER ---
 st.markdown("---")
-st.caption("Made with ❤️ by Sai Krishna • [GitHub Repo](https://github.com/saii4u/my-data-science-portfolio)")
+st.caption("Made with ❤️ by Sai Krishna • [GitHub Repo](https://github.com/saii4u/my-data-science-portfolio)")F
