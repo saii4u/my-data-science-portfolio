@@ -46,24 +46,29 @@ if page == "🏠 Home":
 
     st.success("💡 Tip: Check out my 'Projects' tab to see my work in action!")
 
-# --- NEW NAVIGATION SECTION ---
-    st.write("### 🚀 Where to go next?")
+# --- NEW: VISUAL DASHBOARD NAVIGATION ---
+    st.write("---")
+    st.subheader("🚀 Explore My Work")
     
-    # These boxes act as a visual guide for the recruiter
+    # Using a 3-column layout for a "Card" feel
     nav_col1, nav_col2, nav_col3 = st.columns(3)
     
     with nav_col1:
-        st.info("#### 🧪 Projects\nSee my **Salary Predictor** and **Heart Disease** models in action.")
+        st.markdown("### 🧪\n**Projects**")
+        st.write("Interactive ML models and Data Analysis.")
+        # This creates a "Visual Hint"
+        st.button("View Projects ➡️", on_click=lambda: st.write("👈 Click 'Projects' in the sidebar!"), key="btn_proj")
         
     with nav_col2:
-        st.success("#### 🛠 Skills\nView my technical toolkit including **Python, SQL, and ML**.")
+        st.markdown("### 🛠️\n**Skills**")
+        st.write("My technical toolkit and certifications.")
+        st.button("View Skills ➡️", on_click=lambda: st.write("👈 Click 'Skills' in the sidebar!"), key="btn_skill")
 
     with nav_col3:
-        st.warning("#### 📬 Contact\nGet in touch for **collaborations** or job opportunities.")
-    
-    st.write("---")
-    st.caption("👈 Use the **Navigation Menu** on the left to switch between these pages!")    
-    
+        st.markdown("### 📬\n**Contact**")
+        st.write("Let's chat about data or opportunities.")
+        st.button("Get in Touch ➡️", on_click=lambda: st.write("👈 Click 'Contact' in the sidebar!"), key="btn_cont") 
+
 # --- 🧪 PROJECTS PAGE ---
 elif page == "🧪 Projects":
     st.title("Featured Data Science Projects 🚀")
