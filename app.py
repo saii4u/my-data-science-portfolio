@@ -63,6 +63,8 @@ if page == "🏠 Home":
     with col_edu_logo:
         st.image("https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", width=120)
 
+    st.write("---")
+    
 # --- 💼 EXPERIENCE SECTION ---
     st.write("### 💼 Professional Experience")
     
