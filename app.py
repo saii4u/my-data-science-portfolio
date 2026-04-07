@@ -45,6 +45,24 @@ if page == "🏠 Home":
         st.image("https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/profile.jpg.jpeg", width=250)
 
     st.success("💡 Tip: Check out my 'Projects' tab to see my work in action!")
+
+# --- NEW NAVIGATION SECTION ---
+    st.write("### 🚀 Where to go next?")
+    
+    # These boxes act as a visual guide for the recruiter
+    nav_col1, nav_col2, nav_col3 = st.columns(3)
+    
+    with nav_col1:
+        st.info("#### 🧪 Projects\nSee my **Salary Predictor** and **Heart Disease** models in action.")
+        
+    with nav_col2:
+        st.success("#### 🛠 Skills\nView my technical toolkit including **Python, SQL, and ML**.")
+
+    with nav_col3:
+        st.warning("#### 📬 Contact\nGet in touch for **collaborations** or job opportunities.")
+    
+    st.write("---")
+    st.caption("👈 Use the **Navigation Menu** on the left to switch between these pages!")    
     
 # --- 🧪 PROJECTS PAGE ---
 elif page == "🧪 Projects":
