@@ -26,12 +26,16 @@ if page == "🏠 Home":
         st.write("""
         I am a passionate Data Scientist dedicated to turning complex datasets into 
         actionable business insights. With a background in Machine Learning and 
-        Data Visualization, I thrive on solving real-world problems through code.
+        Data Visualization, I specialize in building predictive models 
+        and interactive data storytelling.
         """)
         
-        # Link Buttons
-        st.link_button("🔗 GitHub", "https://github.com/saii4u")
-        st.link_button("🔗 LinkedIn", "https://linkedin.com/in/sai-krishna-anumula")
+        # Social Links
+        c1, c2 = st.columns(2)
+        with c1:
+            st.link_button("🔗 GitHub", "https://github.com/saii4u")
+        with c2:
+            st.link_button("🔗 LinkedIn", "https://linkedin.com/in/sai-krishna-anumula")
         
         st.write("---")
         st.write("### 🔍 What I Do")
@@ -46,28 +50,53 @@ if page == "🏠 Home":
 
     st.success("💡 Tip: Check out my 'Projects' tab to see my work in action!")
 
-# --- NEW: VISUAL DASHBOARD NAVIGATION ---
-    st.write("---")
-    st.subheader("🚀 Explore My Work")
+st.write("---")
+
+# --- 🎓 EDUCATION SECTION ---
+    st.write("### 🎓 Education")
+    col_edu1, col_edu2 = st.columns(2)
     
-    # Using a 3-column layout for a "Card" feel
+    with col_edu1:
+        st.markdown("**Master of Science in Data Science]**")
+        st.caption("[Coventry University] | [Years, 2024 - 2025]")
+        st.write("Relevant Coursework: Machine Learning, Big Data, Statistics.")
+
+
+    st.write("---")
+
+    # --- 💼 EXPERIENCE SECTION ---
+    st.write("### 💼 Professional Experience")
+    
+    with st.expander("🚀 [Data Analyst] at [Merck KGAa]", expanded=True):
+        st.write("[09-Nov-2020 - 08-Aug-2024]")
+        st.write("""
+        - Analyzed large datasets to identify trends and cost-saving opportunities.
+        - Built automated dashboards using Python and Streamlit.
+        - Collaborated with cross-functional teams to improve data accuracy by 15%.
+        """)
+
+    st.write("---")
+    
+    # --- 🚀 CALL TO ACTION ---
+    st.success("🎯 **Ready to see my technical work?** Use the sidebar to visit **🧪 Projects**!")
+
+# --- NEW NAVIGATION SECTION ---
+    st.write("### 🚀 Where to go next?")
+    
+    # These boxes act as a visual guide for the recruiter
     nav_col1, nav_col2, nav_col3 = st.columns(3)
     
     with nav_col1:
-        st.markdown("### 🧪\n**Projects**")
-        st.write("Interactive ML models and Data Analysis.")
-        # This creates a "Visual Hint"
-        st.button("View Projects ➡️", on_click=lambda: st.write("👈 Click 'Projects' in the sidebar!"), key="btn_proj")
+        st.info("#### 🧪 Projects\nSee my **Salary Predictor** and **Heart Disease** models in action.")
         
     with nav_col2:
-        st.markdown("### 🛠️\n**Skills**")
-        st.write("My technical toolkit and certifications.")
-        st.button("View Skills ➡️", on_click=lambda: st.write("👈 Click 'Skills' in the sidebar!"), key="btn_skill")
+        st.success("#### 🛠 Skills\nView my technical toolkit including **Python, SQL, and ML**.")
 
     with nav_col3:
-        st.markdown("### 📬\n**Contact**")
-        st.write("Let's chat about data or opportunities.")
-        st.button("Get in Touch ➡️", on_click=lambda: st.write("👈 Click 'Contact' in the sidebar!"), key="btn_cont") 
+        st.warning("#### 📬 Contact\nGet in touch for **collaborations** or job opportunities.")
+    
+    st.write("---")
+    st.caption("👈 Use the **Navigation Menu** on the left to switch between these pages!")
 
 # --- 🧪 PROJECTS PAGE ---
 elif page == "🧪 Projects":
@@ -161,19 +190,27 @@ elif page == "🛠 Skills":
         st.write("✅ Git & GitHub\n\n✅ Streamlit\n\n✅ VS Code\n\n✅ Tableau")
 
 # --- 📬 CONTACT PAGE ---
+# --- 📬 CONTACT PAGE ---
 elif page == "📬 Contact":
     st.title("Let's Connect!")
     st.write("Open to job opportunities, collaborations, or coffee chats ☕")
     
-    # Working Contact Form
-    st.markdown("""
+    # Working Contact Form with extra reliability
+    contact_form = f"""
     <form action="https://formsubmit.co/anumulasaikrishna5@gmail.com" method="POST">
-        <input type="text" name="name" placeholder="Your name" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
-        <input type="email" name="email" placeholder="Your email" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
-        <textarea name="message" placeholder="Your message" rows="5" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;"></textarea>
-        <button type="submit" style="background:#0066cc; color:white; padding:12px 24px; border:none; border-radius:5px; cursor:pointer;">Send Message</button>
+        <input type="hidden" name="_subject" value="New Portfolio Message!">
+        <input type="text" name="name" placeholder="Your name" required style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
+        <input type="email" name="email" placeholder="Your email" required style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
+        <textarea name="message" placeholder="Your message" rows="5" required style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;"></textarea>
+        <button type="submit" style="background:#0066cc; color:white; padding:12px 24px; border:none; border-radius:5px; cursor:pointer; width:100%;">Send Message</button>
     </form>
-    """, unsafe_allow_html=True)
+    """
+    
+    st.markdown(contact_form, unsafe_allow_html=True)
+    
+    st.write("---")
+    st.write("📍 Based in: [Coventry, United Kingdom]")
+    st.write("📧 Direct Email: anumulasaikrishna5@gmail.com")
 
 # --- FOOTER ---
 st.markdown("---")
