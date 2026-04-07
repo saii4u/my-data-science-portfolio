@@ -213,4 +213,4 @@ elif page == "📬 Contact":
 
 # --- FOOTER ---
 st.markdown("---")
-st.caption("Made with ❤️ by Sai Krishna • [GitHub Repo](https://github.com/saii4u/my-data-science-portfolio)")F
+st.caption("Made with ❤️ by Sai Krishna • [GitHub Repo](https://github.com/saii4u/my-data-science-portfolio)")
