@@ -52,21 +52,22 @@ if page == "🏠 Home":
 
 
 # --- 🎓 EDUCATION SECTION ---
-    st.write("### 🎓 Education")
-    col_edu1, col_edu2 = st.columns(2)
+st.write("### 🎓 Education")
     
-    with col_edu1:
-        st.markdown("**Master of Science in Data Science]**")
-        st.caption("Coventry University | Years, 2024 - 2025")
+    # Create two columns: one for text (wider) and one for the logo (narrower)
+    col_text, col_logo = st.columns([3, 1]) 
+    
+    with col_text:
+        st.markdown("**Master of Science in Data Science**")
+        st.caption("Coventry University | 2024 - 2025")
         st.write("Relevant Coursework: Machine Learning, Big Data, Statistics.")
         
-        with col_logo:
-            # Reliable cu Logo Link
-            st.image(
-                "https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", 
-                width=120
-            )
-
+    with col_logo:
+        # Using your GitHub raw link as the source
+        st.image(
+            "https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", 
+            width=120
+        )
 
     st.write("---")
 
