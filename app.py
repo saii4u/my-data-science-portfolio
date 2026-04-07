@@ -51,25 +51,17 @@ if page == "🏠 Home":
     st.success("💡 Tip: Check out my 'Projects' tab to see my work in action!")
 
 
-# --- 🎓 EDUCATION SECTION ---
-st.write("### 🎓 Education")
+# --- 🎓 EDUCATION SECTION (Now Correctly Indented) ---
+    st.write("---")
+    st.write("### 🎓 Education")
     
-    # Create two columns: one for text (wider) and one for the logo (narrower)
-    col_text, col_logo = st.columns([3, 1]) 
-    
-    with col_text:
+    col_edu_text, col_edu_logo = st.columns([3, 1]) 
+    with col_edu_text:
         st.markdown("**Master of Science in Data Science**")
         st.caption("Coventry University | 2024 - 2025")
         st.write("Relevant Coursework: Machine Learning, Big Data, Statistics.")
-        
-    with col_logo:
-        # Using your GitHub raw link as the source
-        st.image(
-            "https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", 
-            width=120
-        )
-
-    st.write("---")
+    with col_edu_logo:
+        st.image("https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", width=120)
 
 # --- 💼 EXPERIENCE SECTION ---
     st.write("### 💼 Professional Experience")
