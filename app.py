@@ -63,16 +63,27 @@ if page == "🏠 Home":
 
     st.write("---")
 
-    # --- 💼 EXPERIENCE SECTION ---
+# --- 💼 EXPERIENCE SECTION ---
     st.write("### 💼 Professional Experience")
     
-    with st.expander("🚀 [Data Analyst] at [Merck KGAa]", expanded=True):
-        st.write("[09-Nov-2020 - 08-Aug-2024]")
-        st.write("""
-        - Analyzed large datasets to identify trends and cost-saving opportunities.
-        - Built automated dashboards using Python and Streamlit.
-        - Collaborated with cross-functional teams to improve data accuracy by 15%.
-        """)
+    with st.expander("🚀 Data Analyst at Merck KGaA", expanded=True):
+        # Create two columns: one for your text (left) and one for the logo (right)
+        col_text, col_logo = st.columns([4, 1])
+        
+        with col_text:
+            st.write("**Nov 2020 - Aug 2024**")
+            st.write("""
+            - Analyzed large datasets to identify trends and cost-saving opportunities.
+            - Built automated dashboards using Python and Streamlit.
+            - Collaborated with cross-functional teams to improve data accuracy by 15%.
+            """)
+            
+        with col_logo:
+            # Official Merck KGaA Logo
+            st.image(
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Merck_KGaA_logo.svg/1024px-Merck_KGaA_logo.svg.png", 
+                width=120
+            )
 
     st.write("---")
     
