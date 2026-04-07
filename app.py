@@ -79,9 +79,9 @@ if page == "🏠 Home":
             """)
             
         with col_logo:
-            # Official Merck KGaA Logo
+            # Reliable Merck KGaA Logo Link
             st.image(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Merck_KGaA_logo.svg/1024px-Merck_KGaA_logo.svg.png", 
+                "https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/merck_logo.png", 
                 width=120
             )
 
@@ -199,7 +199,6 @@ elif page == "🛠 Skills":
         st.subheader("⚙️ Tools")
         st.write("✅ Git & GitHub\n\n✅ Streamlit\n\n✅ VS Code\n\n✅ Tableau")
 
-# --- 📬 CONTACT PAGE ---
 # --- 📬 CONTACT PAGE ---
 elif page == "📬 Contact":
     st.title("Let's Connect!")
