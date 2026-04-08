@@ -117,7 +117,7 @@ if page == "🏠 Home":
     nav_col1, nav_col2, nav_col3 = st.columns(3)
     
     with nav_col1:
-        st.info("#### 🧪 Projects\nSee my **Salary Predictor** and **Heart Disease** models in action.")
+        st.info("#### 🧪 Projects\nSee my Machine Learning models in action.")
         
     with nav_col2:
         st.success("#### 🛠 Skills\nView my technical toolkit including **Python, SQL, and ML**.")
@@ -363,4 +363,5 @@ elif page == "📬 Contact":
 
 # --- FOOTER ---
 st.markdown("---")
-st.caption("Made with ❤️ by Sai Krishna • [GitHub Repo](https://github.com/saii4u/my-data-science-portfolio)")
+st.caption("Made with ❤️ by Sai Krishna")
+#• [GitHub Repo](https://github.com/saii4u/my-data-science-portfolio)
