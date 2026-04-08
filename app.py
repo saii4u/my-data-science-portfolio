@@ -246,15 +246,17 @@ elif page == "🧪 Projects":
 
     st.divider()
 
-    # --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
+# --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
     with st.container():
         st.subheader("4️⃣ Forest Fire Severity Predictor 🔥")
         
         try:
-            # 1. Load the Pre-trained Assets (No need to re-download these!)
+            # 1. Load the Pre-trained Assets
             import joblib
             fire_model = joblib.load('fire_svm_model.pkl')
             fire_scaler = joblib.load('fire_scaler.pkl')
+
+            st.write("Predict fire size category based on meteorological data.")
 
             # 2. Input Layout
             col_in1, col_in2 = st.columns(2)
@@ -270,10 +272,10 @@ elif page == "🧪 Projects":
                 isi = st.number_input("ISI Index", value=15.0)
 
             if st.button("Analyze Fire Risk", type="primary"):
-                # 1. Create 27-feature array (All zeros)
+                # 3. Create 27-feature array (All zeros)
                 input_data = np.zeros((1, 27))
                 
-                # 2. Fill the 8 weather variables into indices 0-7
+                # 4. Fill the 8 weather variables into indices 0-7
                 # Order: FFMC, DMC, DC, ISI, temp, RH, wind, rain
                 input_data[0, 0] = ffmc
                 input_data[0, 1] = dmc
@@ -284,15 +286,21 @@ elif page == "🧪 Projects":
                 input_data[0, 6] = wind
                 input_data[0, 7] = rain
                 
-                # 3. Scale and Predict
+                # 5. Scale and Predict
                 input_scaled = fire_scaler.transform(input_data)
                 prediction = fire_model.predict(input_scaled)
                 
                 st.divider()
                 if prediction[0].lower() == "large":
                     st.error("### ⚠️ Result: LARGE FIRE RISK")
+                    st.write("Conditions match patterns associated with significant fire spread.")
                 else:
                     st.success("### ✅ Result: SMALL FIRE RISK")
+                    st.write("Conditions suggest a lower probability of a large-scale fire.")
+
+        except Exception as e:
+            st.error(f"Error loading model or predicting: {e}")
+            st.info("Make sure 'fire_svm_model.pkl' and 'fire_scaler.pkl' are uploaded to your GitHub repo.")
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
