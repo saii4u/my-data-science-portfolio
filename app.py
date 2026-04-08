@@ -246,63 +246,64 @@ elif page == "🧪 Projects":
 
     st.divider()
 
+    st.divider()
+
     # --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
     with st.container():
         st.subheader("4️⃣ Forest Fire Severity Predictor 🔥")
         st.write("""
-        Using **Support Vector Machines (SVM)**, this model classifies the size category of forest fires 
-        based on the Fire Weather Index (FWI) and local weather conditions.
+        This model uses a **Support Vector Machine (SVM)** to classify whether a fire will be 
+        'Small' or 'Large' based on the Fire Weather Index (FWI) and meteorological data.
         """)
 
         try:
-            # 1. Load Data
-            df_fire = pd.read_csv("forestfires.csv")
-            
-            # 2. Preprocessing for the Live Demo
-            from sklearn.svm import SVC
-            from sklearn.preprocessing import LabelEncoder, StandardScaler
+            # 1. Load the Pre-trained Assets
+            import joblib
+            fire_model = joblib.load('fire_svm_model.pkl')
+            fire_scaler = joblib.load('fire_scaler.pkl')
 
-            # Encoding the target 'size_category' (small/large)
-            le = LabelEncoder()
-            df_fire['size_category'] = le.fit_transform(df_fire['size_category'])
-            
-            # Selecting key numerical features for the demo to keep it simple
-            features = ['temp', 'RH', 'wind', 'rain', 'FFMC', 'DMC', 'DC', 'ISI']
-            X = df_fire[features]
-            y = df_fire['size_category']
-
-            scaler = StandardScaler()
-            X_scaled = scaler.fit_transform(X)
-
-            # Train a quick RBF Kernel model (similar to your notebook)
-            model_svm = SVC(kernel='rbf', C=1.0, gamma='scale')
-            model_svm.fit(X_scaled, y)
-
-            # 3. User Input Layout
+            # 2. User Input Layout
             col_in1, col_in2 = st.columns(2)
+            
             with col_in1:
-                temp = st.slider("Temperature (°C)", 0.0, 40.0, 20.0)
-                rh = st.slider("Relative Humidity (%)", 15.0, 100.0, 45.0)
-                wind = st.slider("Wind Speed (km/h)", 0.0, 10.0, 4.0)
-            with col_in2:
-                ffmc = st.number_input("FFMC Index", value=90.0)
-                dmc = st.number_input("DMC Index", value=100.0)
-                isi = st.number_input("ISI Index", value=10.0)
+                st.markdown("##### 🌡️ Weather Conditions")
+                temp = st.slider("Temperature (°C)", 0.0, 45.0, 25.0)
+                rh = st.slider("Relative Humidity (%)", 10.0, 100.0, 30.0)
+                wind = st.slider("Wind Speed (km/h)", 0.0, 15.0, 5.0)
+                rain = st.number_input("Rain (mm/m2)", value=0.0)
 
-            if st.button("Predict Fire Size"):
-                # Prepare input (using 0 for rain to keep demo simple)
-                user_input = np.array([[temp, rh, wind, 0, ffmc, dmc, 500, isi]])
-                user_input_scaled = scaler.transform(user_input)
-                prediction = model_svm.predict(user_input_scaled)
-                result = le.inverse_transform(prediction)[0]
+            with col_in2:
+                st.markdown("##### 📊 Fire Indices")
+                ffmc = st.number_input("FFMC (Fuel Moisture Code)", value=92.0)
+                dmc = st.number_input("DMC (Duff Moisture Code)", value=120.0)
+                dc = st.number_input("DC (Drought Code)", value=500.0)
+                isi = st.number_input("ISI (Initial Spread Index)", value=15.0)
+
+            # 3. Prediction Logic
+            if st.button("Analyze Fire Risk", type="primary"):
+                # Ensure the order matches exactly how you trained the model
+                # Order: temp, RH, wind, rain, FFMC, DMC, DC, ISI
+                input_data = np.array([[temp, rh, wind, rain, ffmc, dmc, dc, isi]])
                 
-                if result == "large":
-                    st.error(f"Prediction: **{result.upper()}** Fire Risk")
+                # Scale the input using the saved scaler
+                input_scaled = fire_scaler.transform(input_data)
+                
+                # Make Prediction
+                prediction = fire_model.predict(input_scaled)
+                
+                # Show result with clear visual feedback
+                st.write("---")
+                if prediction[0].lower() == "large":
+                    st.error("### ⚠️ Result: LARGE FIRE RISK")
+                    st.write("Conditions indicate a high potential for significant spread.")
                 else:
-                    st.success(f"Prediction: **{result.upper()}** Fire Risk")
+                    st.success("### ✅ Result: SMALL FIRE RISK")
+                    st.write("Conditions suggest the fire is likely to remain contained.")
 
         except FileNotFoundError:
-            st.error("Dataset 'forestfires.csv' not found. Please upload it to GitHub.")
+            st.warning("⚠️ Model files not found. Ensure 'fire_svm_model.pkl' and 'fire_scaler.pkl' are in your GitHub repo.")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
