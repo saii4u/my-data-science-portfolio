@@ -11,9 +11,27 @@ import pandas as pd
 st.set_page_config(page_title="Sai Krishna Anumula | Data Scientist", page_icon="📊", layout="wide")
 
 # 2. Sidebar Navigation
-st.sidebar.title("Navigation")
+#st.sidebar.title("Navigation")
 # NOTE: Make sure these names match exactly in the 'if/elif' blocks below
-page = st.sidebar.radio("Go to", ["🏠 Home", "🧪 Projects", "🛠 Skills", "📬 Contact"])
+#page = st.sidebar.radio("Go to", ["🏠 Home", "🧪 Projects", "🛠 Skills", "📬 Contact"])
+
+
+# --- SIDEBAR SETUP ---
+with st.sidebar:
+    st.title("📂 Portfolio")
+    st.markdown("Exploring Data through Machine Learning")
+    st.divider()
+
+    # Your navigation
+    page = st.radio(
+        "Go to", 
+        ["🏠 Home", "🧪 Projects", "🛠 Skills", "📬 Contact"]
+    )
+
+    st.divider()
+    # A small 'Current Status' or 'Location' looks very professional
+    st.caption("📍 Based in India")
+    st.caption("🚀 Open to Data Science roles")
 
 # --- 🏠 HOME PAGE ---
 if page == "🏠 Home":
