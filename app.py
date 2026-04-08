@@ -293,7 +293,7 @@ elif page == "🧪 Projects":
                     st.error("### ⚠️ Result: LARGE FIRE RISK")
                 else:
                     st.success("### ✅ Result: SMALL FIRE RISK")
-                    
+
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
     st.title("My Technical Toolkit 🛠️")
