@@ -248,62 +248,63 @@ elif page == "🧪 Projects":
 
     st.divider()
 
+st.divider()
+
+st.divider()
+
     # --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
     with st.container():
         st.subheader("4️⃣ Forest Fire Severity Predictor 🔥")
-        st.write("""
-        This model uses a **Support Vector Machine (SVM)** to classify whether a fire will be 
-        'Small' or 'Large' based on the Fire Weather Index (FWI) and meteorological data.
-        """)
-
+        
         try:
-            # 1. Load the Pre-trained Assets
+            # 1. Load the Pre-trained Assets (No need to re-download these!)
             import joblib
             fire_model = joblib.load('fire_svm_model.pkl')
             fire_scaler = joblib.load('fire_scaler.pkl')
 
-            # 2. User Input Layout
+            # 2. Input Layout
             col_in1, col_in2 = st.columns(2)
-            
             with col_in1:
-                st.markdown("##### 🌡️ Weather Conditions")
                 temp = st.slider("Temperature (°C)", 0.0, 45.0, 25.0)
                 rh = st.slider("Relative Humidity (%)", 10.0, 100.0, 30.0)
                 wind = st.slider("Wind Speed (km/h)", 0.0, 15.0, 5.0)
                 rain = st.number_input("Rain (mm/m2)", value=0.0)
-
             with col_in2:
-                st.markdown("##### 📊 Fire Indices")
-                ffmc = st.number_input("FFMC (Fuel Moisture Code)", value=92.0)
-                dmc = st.number_input("DMC (Duff Moisture Code)", value=120.0)
-                dc = st.number_input("DC (Drought Code)", value=500.0)
-                isi = st.number_input("ISI (Initial Spread Index)", value=15.0)
+                ffmc = st.number_input("FFMC Index", value=92.0)
+                dmc = st.number_input("DMC Index", value=120.0)
+                dc = st.number_input("DC Index", value=500.0)
+                isi = st.number_input("ISI Index", value=15.0)
 
-            # 3. Prediction Logic
-            if st.button("Analyze Fire Risk", type="primary"):
-                # Ensure the order matches exactly how you trained the model
-                # Order: temp, RH, wind, rain, FFMC, DMC, DC, ISI
-                input_data = np.array([[temp, rh, wind, rain, ffmc, dmc, dc, isi]])
+            if st.button("Run SVM Prediction"):
+                # 3. Create a placeholder array for 28 features (all zeros)
+                input_data = np.zeros((1, 28))
                 
-                # Scale the input using the saved scaler
+                # 4. Fill the 8 weather variables into their correct slots (0-7)
+                # This matches the column order: FFMC, DMC, DC, ISI, temp, RH, wind, rain...
+                input_data[0, 0] = ffmc   # FFMC
+                input_data[0, 1] = dmc    # DMC
+                input_data[0, 2] = dc     # DC
+                input_data[0, 3] = isi    # ISI
+                input_data[0, 4] = temp   # temp
+                input_data[0, 5] = rh     # RH
+                input_data[0, 6] = wind   # wind
+                input_data[0, 7] = rain   # rain
+                # Note: indices 8 to 27 (Area, Days, Months) stay as 0
+                
+                # 5. Scale the 28-feature input
                 input_scaled = fire_scaler.transform(input_data)
                 
-                # Make Prediction
+                # 6. Predict
                 prediction = fire_model.predict(input_scaled)
                 
-                # Show result with clear visual feedback
                 st.write("---")
                 if prediction[0].lower() == "large":
                     st.error("### ⚠️ Result: LARGE FIRE RISK")
-                    st.write("Conditions indicate a high potential for significant spread.")
                 else:
                     st.success("### ✅ Result: SMALL FIRE RISK")
-                    st.write("Conditions suggest the fire is likely to remain contained.")
 
         except FileNotFoundError:
-            st.warning("⚠️ Model files not found. Ensure 'fire_svm_model.pkl' and 'fire_scaler.pkl' are in your GitHub repo.")
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
+            st.warning("Ensure 'fire_svm_model.pkl' and 'fire_scaler.pkl' are in GitHub.")
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
