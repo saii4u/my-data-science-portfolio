@@ -117,7 +117,7 @@ if page == "🏠 Home":
     nav_col1, nav_col2, nav_col3 = st.columns(3)
     
     with nav_col1:
-        st.info("#### 🧪 Projects\nSee my Machine Learning models in action.")
+        st.info("#### 🧪 Projects\nSee my ML models interact and dominate in real time.")
         
     with nav_col2:
         st.success("#### 🛠 Skills\nView my technical toolkit including **Python, SQL, and ML**.")
