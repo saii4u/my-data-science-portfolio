@@ -64,7 +64,7 @@ if page == "🏠 Home":
         st.image("https://raw.githubusercontent.com/saii4u/my-data-science-portfolio/main/culogo.png", width=120)
 
     st.write("---")
-    
+
 # --- 💼 EXPERIENCE SECTION ---
     st.write("### 💼 Professional Experience")
     
@@ -182,6 +182,68 @@ elif page == "🧪 Projects":
             st.error("Model or Data files not found.")
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")
+
+    st.divider()
+
+    # --- PROJECT 3: AIRLINES PASSENGER CLUSTERING ---
+    with st.container():
+        st.subheader("3️⃣ Airlines Loyalty Segmentation ✈️")
+        
+        st.write("""
+        In this project, I performed **Customer Segmentation** on a frequent flyer dataset. 
+        By applying **K-Means Clustering**, I identified 5 distinct passenger groups based on 
+        mileage balances, credit card usage, and flight frequency. 
+        """)
+
+        try:
+            # 1. Load Data from Excel
+            # Using the sheet 'data' from your EastWestAirlines.xlsx file
+            df_air = pd.read_excel("EastWestAirlines.xlsx", sheet_name="data")
+            
+            # 2. Preprocessing & Clustering Logic
+            from sklearn.cluster import KMeans
+            from sklearn.preprocessing import StandardScaler
+
+            # Prepare features (Removing ID and the Target 'Award' for unsupervised learning)
+            features = df_air.drop(['ID#', 'Award?'], axis=1)
+            scaler = StandardScaler()
+            scaled_features = scaler.fit_transform(features)
+
+            # Applying K-Means (5 Clusters based on your notebook analysis)
+            kmeans = KMeans(n_clusters=5, random_state=42, n_init=10)
+            df_air['Segment'] = kmeans.fit_predict(scaled_features)
+
+            # 3. Interactive UI Columns
+            col_metric, col_plot = st.columns([1, 3])
+            
+            with col_metric:
+                st.write("#### 📊 Segment Insights")
+                sel_seg = st.selectbox("Select Segment:", options=sorted(df_air['Segment'].unique()))
+                
+                # Dynamic Metric based on selection
+                seg_data = df_air[df_air['Segment'] == sel_seg]
+                st.metric("Passengers in Group", f"{len(seg_data)}")
+                st.metric("Avg. Mileage Balance", f"{seg_data['Balance'].mean():,.0f}")
+
+            with col_plot:
+                # 4. Interactive Scatter Plot
+                fig_air = px.scatter(
+                    df_air, 
+                    x="Balance", 
+                    y="Bonus_miles", 
+                    color=df_air['Segment'].astype(str),
+                    title="Customer Segments: Mileage vs. Bonus Miles",
+                    labels={"color": "Segment ID"},
+                    template="plotly_white",
+                    hover_data=['cc1_miles', 'Days_since_enroll']
+                )
+                st.plotly_chart(fig_air, use_container_width=True)
+
+        except FileNotFoundError:
+            st.error("Dataset 'EastWestAirlines.xlsx' not found. Ensure it is uploaded to your GitHub.")
+        except Exception as e:
+            st.error(f"Error: {e}. Please ensure 'openpyxl' is in requirements.txt")
+            
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
     st.title("My Technical Toolkit 🛠️")
