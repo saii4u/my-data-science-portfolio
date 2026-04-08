@@ -269,36 +269,31 @@ elif page == "🧪 Projects":
                 dc = st.number_input("DC Index", value=500.0)
                 isi = st.number_input("ISI Index", value=15.0)
 
-            if st.button("Run SVM Prediction"):
-                # 3. Create a placeholder array for 28 features (all zeros)
-                input_data = np.zeros((1, 28))
+            if st.button("Analyze Fire Risk", type="primary"):
+                # 1. Create 27-feature array (All zeros)
+                input_data = np.zeros((1, 27))
                 
-                # 4. Fill the 8 weather variables into their correct slots (0-7)
-                # This matches the column order: FFMC, DMC, DC, ISI, temp, RH, wind, rain...
-                input_data[0, 0] = ffmc   # FFMC
-                input_data[0, 1] = dmc    # DMC
-                input_data[0, 2] = dc     # DC
-                input_data[0, 3] = isi    # ISI
-                input_data[0, 4] = temp   # temp
-                input_data[0, 5] = rh     # RH
-                input_data[0, 6] = wind   # wind
-                input_data[0, 7] = rain   # rain
-                # Note: indices 8 to 27 (Area, Days, Months) stay as 0
+                # 2. Fill the 8 weather variables into indices 0-7
+                # Order: FFMC, DMC, DC, ISI, temp, RH, wind, rain
+                input_data[0, 0] = ffmc
+                input_data[0, 1] = dmc
+                input_data[0, 2] = dc
+                input_data[0, 3] = isi
+                input_data[0, 4] = temp
+                input_data[0, 5] = rh
+                input_data[0, 6] = wind
+                input_data[0, 7] = rain
                 
-                # 5. Scale the 28-feature input
+                # 3. Scale and Predict
                 input_scaled = fire_scaler.transform(input_data)
-                
-                # 6. Predict
                 prediction = fire_model.predict(input_scaled)
                 
+                st.divider()
                 if prediction[0].lower() == "large":
                     st.error("### ⚠️ Result: LARGE FIRE RISK")
                 else:
                     st.success("### ✅ Result: SMALL FIRE RISK")
-
-        except FileNotFoundError:
-            st.warning("Ensure 'fire_svm_model.pkl' and 'fire_scaler.pkl' are in GitHub.")
-
+                    
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
     st.title("My Technical Toolkit 🛠️")
