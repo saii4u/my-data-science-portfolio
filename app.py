@@ -256,51 +256,51 @@ elif page == "🧪 Projects":
             fire_model = joblib.load('fire_svm_model.pkl')
             fire_scaler = joblib.load('fire_scaler.pkl')
 
-            st.write("Predict fire size category based on meteorological data.")
+            st.markdown("""
+                *Adjust the sliders below to simulate weather conditions and predict potential fire severity.*
+            """)
 
             # 2. Input Layout
             col_in1, col_in2 = st.columns(2)
             with col_in1:
+                st.write("**Weather Metrics**")
                 temp = st.slider("Temperature (°C)", 0.0, 45.0, 25.0)
                 rh = st.slider("Relative Humidity (%)", 10.0, 100.0, 30.0)
                 wind = st.slider("Wind Speed (km/h)", 0.0, 15.0, 5.0)
                 rain = st.number_input("Rain (mm/m2)", value=0.0)
             with col_in2:
+                st.write("**Fire Indices**")
                 ffmc = st.number_input("FFMC Index", value=92.0)
                 dmc = st.number_input("DMC Index", value=120.0)
                 dc = st.number_input("DC Index", value=500.0)
                 isi = st.number_input("ISI Index", value=15.0)
-
-            if st.button("Analyze Fire Risk", type="primary"):
-                # 3. Create 27-feature array (All zeros)
-                input_data = np.zeros((1, 27))
-                
-                # 4. Fill the 8 weather variables into indices 0-7
-                # Order: FFMC, DMC, DC, ISI, temp, RH, wind, rain
-                input_data[0, 0] = ffmc
-                input_data[0, 1] = dmc
-                input_data[0, 2] = dc
-                input_data[0, 3] = isi
-                input_data[0, 4] = temp
-                input_data[0, 5] = rh
-                input_data[0, 6] = wind
-                input_data[0, 7] = rain
-                
-                # 5. Scale and Predict
-                input_scaled = fire_scaler.transform(input_data)
-                prediction = fire_model.predict(input_scaled)
-                
-                st.divider()
-                if prediction[0].lower() == "large":
-                    st.error("### ⚠️ Result: LARGE FIRE RISK")
-                    st.write("Conditions match patterns associated with significant fire spread.")
-                else:
-                    st.success("### ✅ Result: SMALL FIRE RISK")
-                    st.write("Conditions suggest a lower probability of a large-scale fire.")
+            
+            # 3. Prediction Button with Visuals
+            if st.button("🚀 Analyze Fire Severity", type="primary", use_container_width=True):
+                with st.spinner("Model calculating risk factors..."):
+                    # Prepare 27-feature array
+                    input_data = np.zeros((1, 27))
+                    input_data[0, 0:8] = [ffmc, dmc, dc, isi, temp, rh, wind, rain]
+                    
+                    # Scale and Predict
+                    input_scaled = fire_scaler.transform(input_data)
+                    prediction = fire_model.predict(input_scaled)
+                    
+                    # Result Display
+                    if prediction[0].lower() == "large":
+                        st.snow()  # Cool visual for a "hot" alert
+                        st.error("### 🚨 Prediction: LARGE FIRE RISK")
+                        st.toast("Warning: High Severity Detected!", icon="⚠️")
+                        st.write("Current conditions match patterns historically associated with fires exceeding 6 hectares.")
+                    else:
+                        st.balloons() # Celebratory visual for low risk
+                        st.success("### ✅ Prediction: SMALL FIRE RISK")
+                        st.toast("Analysis Complete: Low Risk", icon="✅")
+                        st.write("Current conditions suggest a high probability of fire remaining contained.")
 
         except Exception as e:
-            st.error(f"Error loading model or predicting: {e}")
-            st.info("Make sure 'fire_svm_model.pkl' and 'fire_scaler.pkl' are uploaded to your GitHub repo.")
+            st.error(f"Error: {e}")
+
 
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
