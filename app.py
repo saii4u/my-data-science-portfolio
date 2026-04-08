@@ -291,7 +291,6 @@ elif page == "🧪 Projects":
                 # 6. Predict
                 prediction = fire_model.predict(input_scaled)
                 
-                st.write("---")
                 if prediction[0].lower() == "large":
                     st.error("### ⚠️ Result: LARGE FIRE RISK")
                 else:
