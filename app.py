@@ -19,7 +19,7 @@ st.set_page_config(page_title="Sai Krishna Anumula | Data Scientist", page_icon=
 # --- SIDEBAR SETUP ---
 with st.sidebar:
     st.title("📂 Portfolio")
-    st.markdown("Exploring Data through Machine Learning")
+    st.markdown("Helping businesses make smarter decisions - one pandas DataFrame at a time. 🐼")
     st.divider()
 
     # Your navigation
@@ -30,7 +30,7 @@ with st.sidebar:
 
     st.divider()
     # A small 'Current Status' or 'Location' looks very professional
-    st.caption("📍 Based in India")
+    st.caption("📍 Based in Coventry, United Kingdom🇬🇧")
     st.caption("🚀 Open to Data Science roles")
 
 # --- 🏠 HOME PAGE ---
