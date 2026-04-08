@@ -251,7 +251,7 @@ elif page == "🧪 Projects":
 st.divider()
 
 st.divider()
-
+    
     # --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
     with st.container():
         st.subheader("4️⃣ Forest Fire Severity Predictor 🔥")
