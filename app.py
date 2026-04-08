@@ -248,9 +248,9 @@ elif page == "🧪 Projects":
 
     st.divider()
 
-st.divider()
+    st.divider()
 
-st.divider()
+    st.divider()
     
     # --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
     with st.container():
