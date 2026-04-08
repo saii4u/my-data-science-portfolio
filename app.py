@@ -30,7 +30,7 @@ with st.sidebar:
 
     st.divider()
     # A small 'Current Status' or 'Location' looks very professional
-    st.caption("📍 Based in Coventry, United Kingdom🇬🇧")
+    st.caption("📍 Based in Coventry, United Kingdom")
     st.caption("🚀 Open to Data Science roles")
 
 # --- 🏠 HOME PAGE ---
