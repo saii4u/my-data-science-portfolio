@@ -243,7 +243,67 @@ elif page == "🧪 Projects":
             st.error("Dataset 'EastWestAirlines.xlsx' not found. Ensure it is uploaded to your GitHub.")
         except Exception as e:
             st.error(f"Error: {e}. Please ensure 'openpyxl' is in requirements.txt")
+
+    st.divider()
+
+    # --- PROJECT 4: FOREST FIRE CLASSIFICATION ---
+    with st.container():
+        st.subheader("4️⃣ Forest Fire Severity Predictor 🔥")
+        st.write("""
+        Using **Support Vector Machines (SVM)**, this model classifies the size category of forest fires 
+        based on the Fire Weather Index (FWI) and local weather conditions.
+        """)
+
+        try:
+            # 1. Load Data
+            df_fire = pd.read_csv("forestfires.csv")
             
+            # 2. Preprocessing for the Live Demo
+            from sklearn.svm import SVC
+            from sklearn.preprocessing import LabelEncoder, StandardScaler
+
+            # Encoding the target 'size_category' (small/large)
+            le = LabelEncoder()
+            df_fire['size_category'] = le.fit_transform(df_fire['size_category'])
+            
+            # Selecting key numerical features for the demo to keep it simple
+            features = ['temp', 'RH', 'wind', 'rain', 'FFMC', 'DMC', 'DC', 'ISI']
+            X = df_fire[features]
+            y = df_fire['size_category']
+
+            scaler = StandardScaler()
+            X_scaled = scaler.fit_transform(X)
+
+            # Train a quick RBF Kernel model (similar to your notebook)
+            model_svm = SVC(kernel='rbf', C=1.0, gamma='scale')
+            model_svm.fit(X_scaled, y)
+
+            # 3. User Input Layout
+            col_in1, col_in2 = st.columns(2)
+            with col_in1:
+                temp = st.slider("Temperature (°C)", 0.0, 40.0, 20.0)
+                rh = st.slider("Relative Humidity (%)", 15.0, 100.0, 45.0)
+                wind = st.slider("Wind Speed (km/h)", 0.0, 10.0, 4.0)
+            with col_in2:
+                ffmc = st.number_input("FFMC Index", value=90.0)
+                dmc = st.number_input("DMC Index", value=100.0)
+                isi = st.number_input("ISI Index", value=10.0)
+
+            if st.button("Predict Fire Size"):
+                # Prepare input (using 0 for rain to keep demo simple)
+                user_input = np.array([[temp, rh, wind, 0, ffmc, dmc, 500, isi]])
+                user_input_scaled = scaler.transform(user_input)
+                prediction = model_svm.predict(user_input_scaled)
+                result = le.inverse_transform(prediction)[0]
+                
+                if result == "large":
+                    st.error(f"Prediction: **{result.upper()}** Fire Risk")
+                else:
+                    st.success(f"Prediction: **{result.upper()}** Fire Risk")
+
+        except FileNotFoundError:
+            st.error("Dataset 'forestfires.csv' not found. Please upload it to GitHub.")
+
 # --- 🛠 SKILLS PAGE ---
 elif page == "🛠 Skills":
     st.title("My Technical Toolkit 🛠️")
@@ -282,7 +342,7 @@ elif page == "📬 Contact":
     st.markdown(contact_form, unsafe_allow_html=True)
     
     st.write("---")
-    st.write("📍 Based in: [Coventry, United Kingdom]")
+    st.write("📍 Based in Coventry, United Kingdom")
     st.write("📧 Direct Email: anumulasaikrishna5@gmail.com")
 
 # --- FOOTER ---
